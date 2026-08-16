@@ -98,7 +98,7 @@ export default function CustomerProfilePage({ params }: { params: Promise<{ id: 
                             <span className="font-bold text-[#152A4A] text-base">{data.value || '-'}</span>
                             {data.tags.length > 0 && (
                               <div className="flex flex-wrap gap-1 mt-1">
-                                {data.tags.map(tag => (
+                                {data.tags.map((tag: string) => (
                                   <span key={tag} className="text-[10px] bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded border border-blue-100">
                                     {tag}
                                   </span>

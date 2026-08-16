@@ -25,6 +25,7 @@ export interface Order {
   amountPaid: number;
   datePlaced: string;
   dueDate: string | null;
+  dateDelivered?: string;
   measurementSnapshot: any;
   paymentLogs?: PaymentLog[];
 }
