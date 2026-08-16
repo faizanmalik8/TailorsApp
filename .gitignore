@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Internal Notes
+1-main-prompt.md
+2-features.md
+3-workflow.md
+AGENTS.md
+CLAUDE.md
+README.md
