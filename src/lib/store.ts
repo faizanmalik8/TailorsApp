@@ -1,5 +1,5 @@
 "use client";
-
+import { supabase } from './supabase';
 export interface Customer {
   id: string;
   name: string;
@@ -43,6 +43,24 @@ export interface MessageTemplates {
   paymentReminder: string;
 }
 
+export type SyncAction = 
+  | { type: 'UPSERT_CUSTOMER'; payload: Customer; timestamp: number }
+  | { type: 'UPSERT_ORDER'; payload: Order; timestamp: number };
+
+export const addToSyncQueue = (action: SyncAction) => {
+  if (typeof window === 'undefined') return;
+  try {
+    const queueStr = localStorage.getItem('tailors_sync_queue');
+    const queue: SyncAction[] = queueStr ? JSON.parse(queueStr) : [];
+    // Remove older actions of the same type and ID to avoid redundant syncs
+    const filteredQueue = queue.filter(a => !(a.type === action.type && a.payload.id === action.payload.id));
+    filteredQueue.push(action);
+    localStorage.setItem('tailors_sync_queue', JSON.stringify(filteredQueue));
+  } catch (e) {
+    console.error('Error queueing sync action:', e);
+  }
+};
+
 const DEFAULT_SETTINGS: ShopSettings = {
   shopName: "My Tailor Shop",
   ownerName: "Owner",
@@ -80,6 +98,7 @@ export const saveMockCustomer = (customer: Customer) => {
     }
     
     localStorage.setItem('tailors_customers', JSON.stringify(customers));
+    addToSyncQueue({ type: 'UPSERT_CUSTOMER', payload: customer, timestamp: Date.now() });
   } catch (e) {
     console.error('Error saving customer:', e);
   }
@@ -109,6 +128,7 @@ export const saveMockOrder = (order: Order) => {
     }
     
     localStorage.setItem('tailors_orders', JSON.stringify(orders));
+    addToSyncQueue({ type: 'UPSERT_ORDER', payload: order, timestamp: Date.now() });
   } catch (e) {
     console.error('Error saving order:', e);
   }

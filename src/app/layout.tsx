@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/Header";
 import { BottomNav } from "@/components/BottomNav";
 import { AuthProvider } from "@/components/AuthProvider";
+import { SyncProvider } from "@/components/SyncProvider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -38,11 +39,13 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <AuthProvider>
-          <Header />
-          <main className="w-full">
-            {children}
-          </main>
-          <BottomNav />
+          <SyncProvider>
+            <Header />
+            <main className="w-full">
+              {children}
+            </main>
+            <BottomNav />
+          </SyncProvider>
         </AuthProvider>
       </body>
     </html>
