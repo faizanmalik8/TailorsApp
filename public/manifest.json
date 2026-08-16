@@ -1,0 +1,17 @@
+{
+  "name": "Tailor Shop Management",
+  "short_name": "Tailors App",
+  "description": "Management app for tailor shops",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#152A4A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/window.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-navy: #152A4A;
+  --color-brand-light: #EAF1FA;
+  --color-brand-amber: #F59E0B; /* Muted amber/gold for pending amounts */
+  
+  --color-background: #ffffff;
+  --color-foreground: #152A4A; /* Base text is also navy for a clean look, or #171717 */
+}
+
+/* We don't really need a dark mode for a simple business PWA unless specified, but let's keep it simple with a white base. */
+
+body {
+  background-color: var(--color-background);
+  color: #171717; /* standard dark gray text */
+  font-family: var(--font-sans), sans-serif;
+}
+
