@@ -125,12 +125,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user, isLoading, pathname, router]);
 
-  // Loading Screen
-  if (isLoading) {
+  // Loading Screen OR Redirecting to Login
+  const isProfileLoading = user && !status;
+  
+  if (isLoading || isProfileLoading || (!user && pathname !== '/login')) {
     return (
-      <div className="min-h-screen bg-[#152A4A] flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-[#152A4A] flex flex-col items-center justify-center fixed inset-0 z-[300]">
         <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-white mt-4 font-bold tracking-widest uppercase">Loading...</p>
+        <p className="text-white mt-4 font-bold tracking-widest uppercase">
+          {isLoading ? 'Loading...' : 'Redirecting...'}
+        </p>
       </div>
     );
   }

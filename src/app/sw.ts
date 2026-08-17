@@ -12,7 +12,14 @@ declare global {
 declare const self: ServiceWorkerGlobalScope;
 
 const serwist = new Serwist({
-  precacheEntries: self.__SW_MANIFEST,
+  precacheEntries: [
+    ...(self.__SW_MANIFEST || []),
+    { url: '/', revision: '2' },
+    { url: '/login', revision: '2' },
+    { url: '/active', revision: '2' },
+    { url: '/search', revision: '2' },
+    { url: '/settings', revision: '2' }
+  ],
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,

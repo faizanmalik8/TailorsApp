@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { IconScissors } from '@tabler/icons-react';
+import { IconScissors, IconMail } from '@tabler/icons-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -11,6 +11,7 @@ export default function Login() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isVerificationMode, setIsVerificationMode] = useState(false);
   const router = useRouter();
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -37,7 +38,7 @@ export default function Login() {
           }
         ]);
         // If error code is duplicate, it's fine
-        router.push('/');
+        setIsVerificationMode(true);
       }
     } else {
       const { error } = await supabase.auth.signInWithPassword({
@@ -50,9 +51,32 @@ export default function Login() {
     setLoading(false);
   };
 
+  if (isVerificationMode) {
+    return (
+      <div className="fixed inset-0 bg-[#152A4A] flex flex-col items-center justify-center p-6 z-[200] overflow-y-auto">
+        <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 text-center space-y-6">
+          <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <IconMail size={32} />
+          </div>
+          <h2 className="text-2xl font-bold text-[#152A4A]">Verify your email</h2>
+          <p className="text-gray-500 text-sm">We've sent a verification link to <strong>{email}</strong>. Please click the link to verify your account.</p>
+          <a href="https://mail.google.com" target="_blank" rel="noreferrer" className="w-full bg-[#152A4A] text-white font-bold py-4 rounded-xl shadow-md flex items-center justify-center hover:bg-[#0c1a2e] transition-colors">
+            Open Gmail
+          </a>
+          <button 
+            onClick={() => { setIsVerificationMode(false); setIsSignUp(false); }} 
+            className="text-gray-400 hover:text-gray-600 font-bold text-sm underline pt-2"
+          >
+            I have verified my email -> Login
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-[100dvh] bg-[#152A4A] flex flex-col items-center justify-center p-6 relative z-[200]">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 space-y-6">
+    <div className="fixed inset-0 bg-[#152A4A] flex flex-col items-center justify-center p-6 z-[200] overflow-y-auto">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 space-y-6 my-auto">
         <div className="text-center space-y-2">
           <div className="bg-[#152A4A] w-16 h-16 rounded-full flex items-center justify-center mx-auto text-white shadow-lg mb-4">
             <IconScissors size={32} />

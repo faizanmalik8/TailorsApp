@@ -14,6 +14,8 @@ export function BottomNav() {
     { name: 'Settings', path: '/settings', icon: IconSettings },
   ];
 
+  if (pathname === '/login') return null;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 z-50 pointer-events-none">
       <div className="mx-auto max-w-md bg-white/90 backdrop-blur-xl border border-white shadow-[0_10px_40px_rgba(0,0,0,0.12)] rounded-full h-[72px] px-6 pointer-events-auto flex justify-between items-center relative">

@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getMockCustomers, getMockOrders, getShopSettings, Order, ShopSettings } from '@/lib/store';
-import { IconUsersGroup, IconUsers, IconShirt, IconCashBanknote, IconUserPlus } from '@tabler/icons-react';
+import { IconUsersGroup, IconUsers, IconShirt, IconCashBanknote, IconUserPlus, IconLogout } from '@tabler/icons-react';
+import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [settings, setSettings] = useState<ShopSettings | null>(null);
