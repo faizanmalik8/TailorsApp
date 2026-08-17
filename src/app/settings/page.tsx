@@ -9,8 +9,14 @@ export default function SettingsPage() {
   const [templates, setTemplates] = useState<MessageTemplates>({ orderPlaced: '', orderReady: '', paymentReminder: '' });
 
   useEffect(() => {
-    setSettings(getShopSettings());
-    setTemplates(getMessageTemplates());
+    const loadData = () => {
+      setSettings(getShopSettings());
+      setTemplates(getMessageTemplates());
+    };
+    
+    loadData();
+    window.addEventListener('tailors_data_updated', loadData);
+    return () => window.removeEventListener('tailors_data_updated', loadData);
   }, []);
 
   const handleSaveSettings = () => {

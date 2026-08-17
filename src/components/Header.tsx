@@ -13,16 +13,22 @@ export function Header() {
   const [initials, setInitials] = useState("TS");
 
   useEffect(() => {
-    const settings = getShopSettings();
-    if (settings.shopName) {
-      setShopName(settings.shopName);
-      const words = settings.shopName.split(' ').filter(w => w.length > 0);
-      if (words.length >= 2) {
-        setInitials((words[0][0] + words[1][0]).toUpperCase());
-      } else if (words.length === 1) {
-        setInitials(words[0].substring(0, 2).toUpperCase());
+    const loadSettings = () => {
+      const settings = getShopSettings();
+      if (settings.shopName) {
+        setShopName(settings.shopName);
+        const words = settings.shopName.split(' ').filter((w: string) => w.length > 0);
+        if (words.length >= 2) {
+          setInitials((words[0][0] + words[1][0]).toUpperCase());
+        } else if (words.length === 1) {
+          setInitials(words[0].substring(0, 2).toUpperCase());
+        }
       }
-    }
+    };
+
+    loadSettings();
+    window.addEventListener('tailors_data_updated', loadSettings);
+    return () => window.removeEventListener('tailors_data_updated', loadSettings);
   }, []);
 
   const handleLogout = async () => {

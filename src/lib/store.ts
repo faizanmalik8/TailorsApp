@@ -45,7 +45,8 @@ export interface MessageTemplates {
 
 export type SyncAction = 
   | { type: 'UPSERT_CUSTOMER'; payload: Customer; timestamp: number }
-  | { type: 'UPSERT_ORDER'; payload: Order; timestamp: number };
+  | { type: 'UPSERT_ORDER'; payload: Order; timestamp: number }
+  | { type: 'UPSERT_SETTINGS'; payload: ShopSettings; timestamp: number };
 
 export const addToSyncQueue = (action: SyncAction) => {
   if (typeof window === 'undefined') return;
@@ -149,6 +150,7 @@ export const saveShopSettings = (settings: ShopSettings) => {
   if (typeof window === 'undefined') return;
   try {
     localStorage.setItem('tailors_settings', JSON.stringify(settings));
+    addToSyncQueue({ type: 'UPSERT_SETTINGS', payload: settings, timestamp: Date.now() });
   } catch (e) {
     console.error('Error saving settings:', e);
   }

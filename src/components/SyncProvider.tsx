@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useAuth } from './AuthProvider';
 import { processSyncQueue, pullFromSupabase } from '@/lib/sync';
+import { supabase } from '@/lib/supabase';
 
 export function SyncProvider({ children }: { children: React.ReactNode }) {
   const { user, status } = useAuth();
@@ -37,10 +38,21 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
       processSyncQueue();
     }, 30000);
 
+    // 6. Supabase Realtime for instant cross-device updates
+    const channel = supabase.channel('shop_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'customers', filter: `shop_id=eq.${user.id}` }, () => {
+        pullFromSupabase();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders', filter: `shop_id=eq.${user.id}` }, () => {
+        pullFromSupabase();
+      })
+      .subscribe();
+
     return () => {
       window.removeEventListener('online', handleOnline);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       clearInterval(intervalId);
+      supabase.removeChannel(channel);
     };
   }, [user, status]);
 

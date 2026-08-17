@@ -45,6 +45,12 @@ export const processSyncQueue = async () => {
           updated_at: new Date().toISOString()
         });
         if (error) throw error;
+      } else if (action.type === 'UPSERT_SETTINGS') {
+        const { error } = await supabase.from('profiles').update({
+          shop_name: action.payload.shopName,
+          owner_name: action.payload.ownerName
+        }).eq('id', shop_id);
+        if (error) throw error;
       }
     } catch (e) {
       console.error('Sync error for action:', action, e);
@@ -67,6 +73,15 @@ export const pullFromSupabase = async () => {
     
     // Only pull and overwrite if there are no pending local changes to avoid destroying offline work
     if (queue.length === 0) {
+      const { data: profile } = await supabase.from('profiles').select('shop_name, owner_name').eq('id', session.user.id).single();
+      if (profile) {
+        const existingStr = localStorage.getItem('tailors_settings');
+        const existing = existingStr ? JSON.parse(existingStr) : { shopName: "My Tailor Shop", ownerName: "Owner", phone: "", suitPrice: 1500 };
+        existing.shopName = profile.shop_name || existing.shopName;
+        existing.ownerName = profile.owner_name || existing.ownerName;
+        localStorage.setItem('tailors_settings', JSON.stringify(existing));
+      }
+
       const { data: customers } = await supabase.from('customers').select('*').eq('shop_id', session.user.id);
       if (customers) {
         const formattedCustomers = customers.map(c => ({
