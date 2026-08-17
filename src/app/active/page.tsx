@@ -22,8 +22,15 @@ function ActiveOrdersContent() {
   const [ledgerSearch, setLedgerSearch] = useState('');
   
   useEffect(() => {
-    setOrders(getMockOrders());
-    setCustomers(getMockCustomers());
+    const loadData = () => {
+      setCustomers(getMockCustomers());
+      const allOrders = getMockOrders();
+      setOrders(allOrders.filter(o => o.status !== 'delivered'));
+    };
+    
+    loadData();
+    window.addEventListener('tailors_data_updated', loadData);
+    return () => window.removeEventListener('tailors_data_updated', loadData);
   }, []);
 
   const handleStatusChange = (orderId: string, newStatus: Order['status']) => {

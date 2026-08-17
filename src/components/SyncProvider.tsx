@@ -23,13 +23,23 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
     };
     window.addEventListener('online', handleOnline);
 
-    // 4. Periodic sync every 30 seconds just in case
+    // 4. Pull and Push when user switches back to the app
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        processSyncQueue();
+        pullFromSupabase();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // 5. Periodic sync every 30 seconds just in case
     const intervalId = setInterval(() => {
       processSyncQueue();
     }, 30000);
 
     return () => {
       window.removeEventListener('online', handleOnline);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       clearInterval(intervalId);
     };
   }, [user, status]);

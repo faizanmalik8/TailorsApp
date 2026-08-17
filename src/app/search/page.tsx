@@ -10,7 +10,13 @@ export default function SearchPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
 
   useEffect(() => {
-    setCustomers(getMockCustomers());
+    const loadData = () => {
+      setCustomers(getMockCustomers());
+    };
+    
+    loadData();
+    window.addEventListener('tailors_data_updated', loadData);
+    return () => window.removeEventListener('tailors_data_updated', loadData);
   }, []);
 
   const filtered = query.length > 0

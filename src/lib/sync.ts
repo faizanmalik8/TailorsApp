@@ -96,6 +96,8 @@ export const pullFromSupabase = async () => {
         }));
         localStorage.setItem('tailors_orders', JSON.stringify(formattedOrders));
       }
+
+      window.dispatchEvent(new CustomEvent('tailors_data_updated'));
     }
   } catch (e) {
     console.error('Error pulling from Supabase:', e);

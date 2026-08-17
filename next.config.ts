@@ -7,7 +7,6 @@ const withSerwist = withSerwistInit({
 });
 
 const nextConfig: NextConfig = {
-  turbopack: {},
   allowedDevOrigins: ['10.41.153.182', '192.168.1.12'],
 };
 

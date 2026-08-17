@@ -17,13 +17,19 @@ export default function CustomerProfilePage({ params }: { params: Promise<{ id: 
   const resolvedParams = React.use(params);
   
   useEffect(() => {
-    const allCustomers = getMockCustomers();
-    const found = allCustomers.find(c => c.id === resolvedParams.id);
-    if (found) {
-      setCustomer(found);
+    const loadData = () => {
+      const customers = getMockCustomers();
       const allOrders = getMockOrders();
-      setOrders(allOrders.filter(o => o.customerId === found.id).sort((a,b) => new Date(b.datePlaced).getTime() - new Date(a.datePlaced).getTime()));
-    }
+      const c = customers.find(x => x.id === resolvedParams.id);
+      if (c) {
+        setCustomer(c);
+        setOrders(allOrders.filter(o => o.customerId === c.id).sort((a,b) => new Date(b.datePlaced).getTime() - new Date(a.datePlaced).getTime()));
+      }
+    };
+    
+    loadData();
+    window.addEventListener('tailors_data_updated', loadData);
+    return () => window.removeEventListener('tailors_data_updated', loadData);
   }, [resolvedParams.id]);
 
   if (!customer) {

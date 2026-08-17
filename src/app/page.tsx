@@ -15,22 +15,28 @@ export default function Home() {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    setSettings(getShopSettings());
-    const allCustomers = getMockCustomers();
-    const allOrders = getMockOrders();
-    const activeOrders = allOrders.filter(o => o.status !== 'delivered');
-    const pendingAmount = allOrders.reduce((sum, o) => {
-      const total = Number(o.totalAmount) || 0;
-      const paid = Number(o.amountPaid) || 0;
-      return sum + Math.max(0, total - paid);
-    }, 0);
+    const loadData = () => {
+      setSettings(getShopSettings());
+      const allCustomers = getMockCustomers();
+      const allOrders = getMockOrders();
+      const activeOrders = allOrders.filter(o => o.status !== 'delivered');
+      const pendingAmount = allOrders.reduce((sum, o) => {
+        const total = Number(o.totalAmount) || 0;
+        const paid = Number(o.amountPaid) || 0;
+        return sum + Math.max(0, total - paid);
+      }, 0);
 
-    const uniqueClients = new Set(activeOrders.map(o => o.customerId));
+      const uniqueClients = new Set(activeOrders.map(o => o.customerId));
 
-    setTotalCustomers(allCustomers.length);
-    setActiveClients(uniqueClients.size);
-    setAmountPending(pendingAmount);
-    setOrders(activeOrders);
+      setTotalCustomers(allCustomers.length);
+      setActiveClients(uniqueClients.size);
+      setAmountPending(pendingAmount);
+      setOrders(activeOrders);
+    };
+
+    loadData();
+    window.addEventListener('tailors_data_updated', loadData);
+    return () => window.removeEventListener('tailors_data_updated', loadData);
   }, []);
 
   return (
