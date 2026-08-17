@@ -67,7 +67,7 @@ export default function Login() {
             onClick={() => { setIsVerificationMode(false); setIsSignUp(false); }} 
             className="text-gray-400 hover:text-gray-600 font-bold text-sm underline pt-2"
           >
-            I have verified my email -> Login
+            I have verified my email -{'>'} Login
           </button>
         </div>
       </div>
