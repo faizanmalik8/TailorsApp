@@ -25,7 +25,7 @@ function ActiveOrdersContent() {
     const loadData = () => {
       setCustomers(getMockCustomers());
       const allOrders = getMockOrders();
-      setOrders(allOrders.filter(o => o.status !== 'delivered'));
+      setOrders(allOrders);
     };
     
     loadData();
