@@ -76,36 +76,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Always try to fetch latest from server if online
     if (navigator.onLine) {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('status, valid_until')
-        .eq('id', user.id)
-        .single();
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('status, valid_until')
+          .eq('id', user.id)
+          .single();
 
-      if (data) {
-        let currentStatus = data.status as ProfileStatus;
-        if (data.valid_until && new Date(data.valid_until) < new Date()) {
-          currentStatus = 'expired';
-          // Optionally update DB here, but admin handles true status
-        }
-        
-        setStatus(currentStatus);
-        localStorage.setItem('shop_profile_cache', JSON.stringify({
-          status: currentStatus,
-          valid_until: data.valid_until
-        }));
-      } else if (error && error.code === 'PGRST116') {
-        // Profile doesn't exist yet, create it now since user is fully authenticated
-        await supabase.from('profiles').insert([
-          { 
-            id: user.id, 
-            shop_name: 'My Tailor Shop', 
-            owner_name: 'Shop Owner', 
-            status: 'pending_payment' 
+        if (data) {
+          let currentStatus = data.status as ProfileStatus;
+          if (data.valid_until && new Date(data.valid_until) < new Date()) {
+            currentStatus = 'expired';
           }
-        ]);
-        setStatus('pending_payment');
+          
+          setStatus(currentStatus);
+          localStorage.setItem('shop_profile_cache', JSON.stringify({
+            status: currentStatus,
+            valid_until: data.valid_until
+          }));
+        } else if (error && error.code === 'PGRST116') {
+          await supabase.from('profiles').insert([
+            { 
+              id: user.id, 
+              shop_name: 'My Tailor Shop', 
+              owner_name: 'Shop Owner', 
+              status: 'pending_payment' 
+            }
+          ]);
+          setStatus('pending_payment');
+        } else if (error) {
+          console.error('Profile fetch failed:', error);
+        }
+      } catch (err) {
+        console.error('checkProfile threw:', err);
+      } finally {
+        setIsLoading(false);
       }
+    } else if (!cached) {
       setIsLoading(false);
     }
   };
@@ -119,11 +126,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isLoading) return;
 
     if (!user && pathname !== '/login') {
-      router.push('/login');
+      window.location.href = '/login';
     } else if (user && pathname === '/login') {
-      router.push('/');
+      window.location.href = '/';
     }
-  }, [user, isLoading, pathname, router]);
+  }, [user, isLoading, pathname]);
 
   // Loading Screen OR Redirecting to Login
   const isProfileLoading = user && !status;

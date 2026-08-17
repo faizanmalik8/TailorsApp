@@ -3,6 +3,7 @@ import { supabase } from './supabase';
 export interface Customer {
   id: string;
   name: string;
+  urduName?: string;
   phone: string;
   measurements: Record<string, any>;
   customerNumber?: number;
@@ -53,7 +54,8 @@ export const addToSyncQueue = (action: SyncAction) => {
   if (typeof window === 'undefined') return;
   try {
     const queueStr = localStorage.getItem('tailors_sync_queue');
-    const queue: SyncAction[] = queueStr ? JSON.parse(queueStr) : [];
+    let queue: SyncAction[] = [];
+    try { queue = queueStr ? JSON.parse(queueStr) : []; } catch(e) {}
     // Remove older actions of the same type and ID to avoid redundant syncs
     const filteredQueue = queue.filter(a => {
       if (a.type !== action.type) return true;
@@ -81,14 +83,15 @@ const DEFAULT_TEMPLATES: MessageTemplates = {
 };
 
 export const getMockCustomers = (): Customer[] => {
-  if (typeof window === 'undefined') return [];
-  try {
-    const stored = localStorage.getItem('tailors_customers');
-    return stored ? JSON.parse(stored) : [];
-  } catch (e) {
-    console.error('Error reading customers:', e);
-    return [];
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = localStorage.getItem('tailors_customers');
+      if (stored) return JSON.parse(stored);
+    } catch (e) {
+      console.error('Error reading customers:', e);
+    }
   }
+  return [];
 };
 
 export const saveMockCustomer = (customer: Customer) => {

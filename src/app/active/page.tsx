@@ -149,13 +149,13 @@ function ActiveOrdersContent() {
           onClick={() => setTab('active')}
           className={`flex-1 py-2 font-bold text-center rounded-md transition-colors ${tab === 'active' ? 'bg-white text-[#152A4A] shadow' : 'text-gray-500 hover:text-gray-700'}`}
         >
-          Active Orders ({activeOrders.length})
+          Active Orders <span className="font-urdu opacity-80 font-normal" dir="rtl">(آرڈر)</span> ({activeOrders.length})
         </button>
         <button 
           onClick={() => setTab('ledger')}
           className={`flex-1 py-2 font-bold text-center rounded-md transition-colors ${tab === 'ledger' ? 'bg-white text-amber-700 shadow' : 'text-gray-500 hover:text-gray-700'}`}
         >
-          Ledger ({orders.filter(o => (Number(o.totalAmount) || 0) > (Number(o.amountPaid) || 0)).length})
+          Ledger <span className="font-urdu opacity-80 font-normal" dir="rtl">(کھاتہ)</span> ({orders.filter(o => (Number(o.totalAmount) || 0) > (Number(o.amountPaid) || 0)).length})
         </button>
       </div>
 
@@ -268,7 +268,9 @@ function ActiveOrdersContent() {
                           </div>
                           <div className="text-right bg-amber-50 px-4 py-2 rounded-lg border border-amber-100">
                             <p className="text-2xl font-bold text-amber-700">Rs {balance}</p>
-                            <p className="text-xs font-bold text-amber-700/60 uppercase tracking-wider">Pending Due</p>
+                            <p className="text-xs font-bold text-amber-700/60 uppercase tracking-wider flex items-center justify-end gap-1">
+                              Pending <span className="font-urdu normal-case opacity-80" dir="rtl">(بقایہ)</span>
+                            </p>
                           </div>
                         </div>
                         
@@ -303,7 +305,7 @@ function ActiveOrdersContent() {
                             }}
                             className="flex-1 bg-amber-100 text-amber-800 font-bold py-3 rounded-lg hover:bg-amber-200 transition-colors"
                           >
-                            Log Payment
+                            Log Payment <span className="font-urdu opacity-80" dir="rtl">(جمع)</span>
                           </button>
                           <button 
                             onClick={() => handleNotify(order, 'remind')}

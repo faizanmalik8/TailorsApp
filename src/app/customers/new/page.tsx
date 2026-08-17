@@ -14,7 +14,9 @@ export default function NewCustomerPage() {
   
   // Customer State
   const [name, setName] = useState('');
+  const [urduName, setUrduName] = useState('');
   const [phone, setPhone] = useState('');
+  const [customerNumber, setCustomerNumber] = useState('');
 
   // Garment State
   const [selectedGarmentId, setSelectedGarmentId] = useState<string | null>(null);
@@ -46,10 +48,43 @@ export default function NewCustomerPage() {
       if (found) {
         setExistingCustomer(found);
         setName(found.name);
+        if (found.urduName) setUrduName(found.urduName);
         setPhone(found.phone);
+        if (found.customerNumber) setCustomerNumber(found.customerNumber.toString());
       }
+    } else {
+      // Auto-increment for new customer
+      const customers = getMockCustomers();
+      let maxNumber = 0;
+      customers.forEach(c => {
+        if (c.customerNumber && c.customerNumber > maxNumber) {
+          maxNumber = c.customerNumber;
+        }
+      });
+      setCustomerNumber((maxNumber + 1).toString().padStart(4, '0'));
     }
   }, [customerId]);
+
+  useEffect(() => {
+    // Only auto-translate if the user hasn't heavily modified it or if we are typing English
+    const delayDebounceFn = setTimeout(async () => {
+      if (name.trim()) {
+        try {
+          // Google Input Tools API for Urdu transliteration
+          const res = await fetch(`https://inputtools.google.com/request?text=${encodeURIComponent(name.trim())}&itc=ur-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8`);
+          const data = await res.json();
+          if (data[0] === 'SUCCESS' && data[1] && data[1][0] && data[1][0][1]) {
+            setUrduName(data[1][0][1][0]);
+          }
+        } catch (e) {
+          console.error("Transliteration failed", e);
+        }
+      } else {
+        setUrduName('');
+      }
+    }, 800);
+    return () => clearTimeout(delayDebounceFn);
+  }, [name]);
 
   const activeTemplate = GARMENT_TEMPLATES.find(g => g.id === selectedGarmentId);
 
@@ -105,13 +140,15 @@ export default function NewCustomerPage() {
     const customerToSave: Customer = existingCustomer || {
       id: generateId(),
       name: name.trim() || 'Unnamed',
+      urduName: urduName.trim(),
       phone: phone.trim(),
       measurements: {},
-      customerNumber: maxNumber + 1
+      customerNumber: parseInt(customerNumber, 10) || (maxNumber + 1)
     };
     
     // If name/phone updated
     customerToSave.name = name.trim() || 'Unnamed';
+    customerToSave.urduName = urduName.trim();
     customerToSave.phone = phone.trim();
     
     // Update measurements
@@ -147,6 +184,16 @@ export default function NewCustomerPage() {
       <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-4">
         <h3 className="font-bold text-lg text-[#152A4A]">Customer Details</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Customer ID (Auto-Generated)</label>
+            <input 
+              type="text" 
+              placeholder="e.g. 0001" 
+              value={customerNumber}
+              onChange={e => setCustomerNumber(e.target.value)}
+              className="w-full border-2 border-gray-200 rounded-lg p-3 outline-none focus:border-[#152A4A] text-lg font-mono bg-gray-50"
+            />
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
             <input 
@@ -155,6 +202,17 @@ export default function NewCustomerPage() {
               value={name}
               onChange={e => setName(e.target.value)}
               className="w-full border-2 border-gray-200 rounded-lg p-3 outline-none focus:border-[#152A4A] text-lg"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Urdu Name (Auto-Translated)</label>
+            <input 
+              type="text" 
+              placeholder="اردو نام" 
+              value={urduName}
+              onChange={e => setUrduName(e.target.value)}
+              dir="rtl"
+              className="w-full border-2 border-gray-200 rounded-lg p-3 outline-none focus:border-[#152A4A] text-lg font-urdu text-right"
             />
           </div>
           <div>

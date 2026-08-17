@@ -53,7 +53,9 @@ export default function Home() {
           className="bg-white text-[#152A4A] flex items-center justify-center gap-3 w-full max-w-sm rounded-2xl py-4 font-bold text-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:scale-[1.02] active:scale-[0.98] transition-transform"
         >
           <IconUserPlus size={24} stroke={2.5} />
-          Take Measurement
+          <div className="font-medium text-sm mt-2 text-[#152A4A] flex flex-col items-center">
+            Take Measurement <span className="font-urdu text-xs opacity-70" dir="rtl">(ناپ)</span>
+          </div>
         </Link>
       </div>
 
@@ -67,7 +69,9 @@ export default function Home() {
               <div className="text-blue-500 mb-4 bg-blue-50 p-4 rounded-2xl">
                 <IconUsersGroup size={32} />
               </div>
-              <span className="text-xs text-gray-500 font-bold tracking-wide uppercase mb-1">Customers</span>
+              <span className="text-xs text-gray-500 font-bold tracking-wide uppercase mb-1 flex items-center justify-center gap-1">
+                Customers <span className="font-urdu normal-case opacity-80 mt-0.5" dir="rtl">(گاہک)</span>
+              </span>
               <span className="text-2xl font-black text-[#152A4A]">{totalCustomers}</span>
             </div>
 
@@ -76,7 +80,9 @@ export default function Home() {
               <div className="text-indigo-500 mb-4 bg-indigo-50 p-4 rounded-2xl">
                 <IconUsers size={32} />
               </div>
-              <span className="text-xs text-gray-500 font-bold tracking-wide uppercase mb-1">Active</span>
+              <span className="text-xs text-gray-500 font-bold tracking-wide uppercase mb-1 flex items-center justify-center gap-1">
+                Active <span className="font-urdu normal-case opacity-80 mt-0.5" dir="rtl">(متحرک)</span>
+              </span>
               <span className="text-2xl font-black text-[#152A4A]">{activeClients}</span>
             </div>
 
@@ -85,7 +91,9 @@ export default function Home() {
               <div className="text-purple-500 mb-4 bg-purple-50 p-4 rounded-2xl">
                 <IconShirt size={32} />
               </div>
-              <span className="text-xs text-gray-500 font-bold tracking-wide uppercase mb-1">Orders</span>
+              <span className="text-xs text-gray-500 font-bold tracking-wide uppercase mb-1 flex items-center justify-center gap-1">
+                Orders <span className="font-urdu normal-case opacity-80 mt-0.5" dir="rtl">(آرڈر)</span>
+              </span>
               <span className="text-2xl font-black text-[#152A4A]">{orders.length}</span>
             </div>
 
@@ -94,7 +102,9 @@ export default function Home() {
               <div className="text-amber-500 mb-4 bg-amber-50 p-4 rounded-2xl">
                 <IconCashBanknote size={32} />
               </div>
-              <span className="text-xs text-gray-500 font-bold tracking-wide uppercase mb-1">Pending</span>
+              <span className="text-xs text-gray-500 font-bold tracking-wide uppercase mb-1 flex items-center justify-center gap-1">
+                Pending <span className="font-urdu normal-case opacity-80 mt-0.5" dir="rtl">(کھاتہ)</span>
+              </span>
               <span className="text-2xl font-black text-amber-600">Rs {amountPending}</span>
             </Link>
 

@@ -38,7 +38,10 @@ export default function SettingsPage() {
         <h3 className="font-bold text-lg text-[#152A4A]">Shop Profile</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Shop Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1 flex justify-between">
+              <span>Shop Name</span>
+              <span className="font-urdu opacity-80" dir="rtl">(دکان کا نام)</span>
+            </label>
             <input 
               type="text" 
               value={settings.shopName}
@@ -47,7 +50,10 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Owner Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1 flex justify-between">
+              <span>Owner Name</span>
+              <span className="font-urdu opacity-80" dir="rtl">(مالک کا نام)</span>
+            </label>
             <input 
               type="text" 
               value={settings.ownerName}
@@ -65,7 +71,10 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Default Suit Price (Rs)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1 flex justify-between">
+              <span>Default Suit Price (Rs)</span>
+              <span className="font-urdu opacity-80" dir="rtl">(سلائ)</span>
+            </label>
             <input 
               type="number" 
               value={settings.suitPrice || ''}

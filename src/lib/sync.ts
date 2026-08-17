@@ -11,7 +11,14 @@ export const processSyncQueue = async () => {
   const queueStr = localStorage.getItem('tailors_sync_queue');
   if (!queueStr) return;
   
-  const queue: SyncAction[] = JSON.parse(queueStr);
+  let queue: SyncAction[] = [];
+  try {
+    queue = JSON.parse(queueStr);
+  } catch (e) {
+    console.error("Parse error queue", e);
+    localStorage.removeItem('tailors_sync_queue');
+    return;
+  }
   if (queue.length === 0) return;
 
   const remainingQueue: SyncAction[] = [];
@@ -70,14 +77,20 @@ export const pullFromSupabase = async () => {
 
   try {
     const queueStr = localStorage.getItem('tailors_sync_queue');
-    const queue = queueStr ? JSON.parse(queueStr) : [];
+    let queue: any[] = [];
+    try {
+      queue = queueStr ? JSON.parse(queueStr) : [];
+    } catch(e) {}
     
     // Only pull and overwrite if there are no pending local changes to avoid destroying offline work
     if (queue.length === 0) {
       const { data: profile } = await supabase.from('profiles').select('shop_name, owner_name').eq('id', session.user.id).single();
       if (profile) {
         const existingStr = localStorage.getItem('tailors_settings');
-        const existing = existingStr ? JSON.parse(existingStr) : { shopName: "My Tailor Shop", ownerName: "Owner", phone: "", suitPrice: 1500 };
+        let existing = { shopName: "My Tailor Shop", ownerName: "Owner", phone: "", suitPrice: 1500 };
+        try {
+          if (existingStr) existing = JSON.parse(existingStr);
+        } catch(e) {}
         existing.shopName = profile.shop_name || existing.shopName;
         existing.ownerName = profile.owner_name || existing.ownerName;
         localStorage.setItem('tailors_settings', JSON.stringify(existing));

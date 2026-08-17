@@ -70,7 +70,7 @@ export default function CustomerProfilePage({ params }: { params: Promise<{ id: 
         {/* Past Measurements Box */}
         <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-6">
           <h3 className="font-bold text-xl text-[#152A4A] flex items-center gap-2">
-            <IconRulerMeasure size={24} /> Saved Measurements
+            <IconRulerMeasure size={24} /> <span className="flex items-center gap-1">Saved Measurements <span className="font-urdu normal-case opacity-80" dir="rtl">(ناپ)</span></span>
           </h3>
           
           {measurementsKeys.length === 0 ? (

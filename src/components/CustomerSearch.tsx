@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Customer, getMockCustomers } from '@/lib/store';
 import { IconSearch, IconUserPlus } from '@tabler/icons-react';
 
@@ -14,7 +14,11 @@ export function CustomerSearch({ onSelect, selectedCustomer, onAddNew }: Custome
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   
-  const allCustomers = getMockCustomers();
+  const [allCustomers, setAllCustomers] = useState<Customer[]>([]);
+
+  useEffect(() => {
+    setAllCustomers(getMockCustomers());
+  }, []);
   
   const filtered = query.length > 0 
     ? allCustomers.filter(c => c.name.toLowerCase().includes(query.toLowerCase()) || c.phone.includes(query))
