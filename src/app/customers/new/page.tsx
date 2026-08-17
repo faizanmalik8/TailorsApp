@@ -94,11 +94,20 @@ export default function NewCustomerPage() {
       return;
     }
     
+    const customers = getMockCustomers();
+    let maxNumber = 0;
+    customers.forEach(c => {
+      if (c.customerNumber && c.customerNumber > maxNumber) {
+        maxNumber = c.customerNumber;
+      }
+    });
+
     const customerToSave: Customer = existingCustomer || {
       id: generateId(),
       name: name.trim() || 'Unnamed',
       phone: phone.trim(),
-      measurements: {}
+      measurements: {},
+      customerNumber: maxNumber + 1
     };
     
     // If name/phone updated

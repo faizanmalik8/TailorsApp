@@ -177,7 +177,7 @@ function ActiveOrdersContent() {
                       <div className="flex justify-between items-start">
                         <Link href={`/customers/${customer.id}`} className="hover:opacity-70 transition-opacity">
                           <h3 className="font-bold text-lg text-[#152A4A] flex items-center gap-1">
-                            {customer.name} 
+                            {customer.customerNumber ? `#${customer.customerNumber} - ` : ''}{customer.name} 
                             <IconSearch size={16} className="text-gray-400" />
                           </h3>
                           <p className="text-sm text-gray-500">{customer.phone} • {order.quantity}x {garment?.name}</p>
@@ -263,7 +263,7 @@ function ActiveOrdersContent() {
                       <div key={order.id} className="bg-white border-2 border-amber-200 rounded-xl p-5 shadow-sm space-y-4">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="font-bold text-xl text-[#152A4A]">{customer.name}</h3>
+                            <h3 className="font-bold text-xl text-[#152A4A]">{customer.customerNumber ? `#${customer.customerNumber} - ` : ''}{customer.name}</h3>
                             <p className="text-sm font-medium text-gray-500">{customer.phone}</p>
                           </div>
                           <div className="text-right bg-amber-50 px-4 py-2 rounded-lg border border-amber-100">

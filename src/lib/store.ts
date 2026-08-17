@@ -5,6 +5,7 @@ export interface Customer {
   name: string;
   phone: string;
   measurements: Record<string, any>;
+  customerNumber?: number;
 }
 
 export type OrderStatus = 'received' | 'ready' | 'delivered';
@@ -54,7 +55,11 @@ export const addToSyncQueue = (action: SyncAction) => {
     const queueStr = localStorage.getItem('tailors_sync_queue');
     const queue: SyncAction[] = queueStr ? JSON.parse(queueStr) : [];
     // Remove older actions of the same type and ID to avoid redundant syncs
-    const filteredQueue = queue.filter(a => !(a.type === action.type && a.payload.id === action.payload.id));
+    const filteredQueue = queue.filter(a => {
+      if (a.type !== action.type) return true;
+      if (a.type === 'UPSERT_SETTINGS') return false; // Only keep the newest settings action
+      return (a.payload as any).id !== (action.payload as any).id;
+    });
     filteredQueue.push(action);
     localStorage.setItem('tailors_sync_queue', JSON.stringify(filteredQueue));
   } catch (e) {

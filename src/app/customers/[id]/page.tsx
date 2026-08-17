@@ -54,7 +54,7 @@ export default function CustomerProfilePage({ params }: { params: Promise<{ id: 
           <IconChevronLeft size={24} />
         </button>
         <div>
-          <h2 className="text-2xl font-bold text-[#152A4A]">{customer.name}</h2>
+          <h2 className="text-2xl font-bold text-[#152A4A]">{customer.customerNumber ? `#${customer.customerNumber} - ` : ''}{customer.name}</h2>
           <p className="text-gray-500">{customer.phone}</p>
         </div>
       </div>

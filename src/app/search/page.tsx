@@ -59,7 +59,7 @@ export default function SearchPage() {
               className="flex items-center justify-between bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:border-[#152A4A] hover:bg-blue-50 transition-colors"
             >
               <div>
-                <h3 className="font-bold text-lg text-[#152A4A]">{c.name}</h3>
+                <h3 className="font-bold text-lg text-[#152A4A]">{c.customerNumber ? `#${c.customerNumber} - ` : ''}{c.name}</h3>
                 <p className="text-sm text-gray-500">{c.phone}</p>
               </div>
               <IconChevronRight className="text-gray-400" />

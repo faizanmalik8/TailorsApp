@@ -25,6 +25,7 @@ export const processSyncQueue = async () => {
           name: action.payload.name,
           phone: action.payload.phone,
           measurements: action.payload.measurements,
+          customer_number: action.payload.customerNumber,
           updated_at: new Date().toISOString()
         });
         if (error) throw error;
@@ -88,7 +89,8 @@ export const pullFromSupabase = async () => {
           id: c.id,
           name: c.name,
           phone: c.phone,
-          measurements: c.measurements || {}
+          measurements: c.measurements || {},
+          customerNumber: c.customer_number
         }));
         localStorage.setItem('tailors_customers', JSON.stringify(formattedCustomers));
       }
