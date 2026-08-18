@@ -1,6 +1,6 @@
 {
-  "name": "Tailor Shop Management",
-  "short_name": "Tailors App",
+  "name": "B Tailor",
+  "short_name": "BT",
   "description": "Management app for tailor shops",
   "start_url": "/",
   "display": "standalone",

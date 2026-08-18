@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { IconScissors, IconMail } from '@tabler/icons-react';
+import { IconScissors, IconMail, IconEye, IconEyeOff } from '@tabler/icons-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,6 +12,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isVerificationMode, setIsVerificationMode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -108,15 +109,24 @@ export default function Login() {
           
           <div className="space-y-1">
             <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#152A4A] focus:ring-2 focus:ring-[#152A4A]/20 outline-none transition-all bg-gray-50"
-              placeholder="••••••••"
-              required
-              minLength={6}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#152A4A] focus:ring-2 focus:ring-[#152A4A]/20 outline-none transition-all bg-gray-50 pr-12"
+                placeholder="••••••••"
+                required
+                minLength={6}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#152A4A] transition-colors p-1"
+              >
+                {showPassword ? <IconEyeOff size={20} /> : <IconEye size={20} />}
+              </button>
+            </div>
           </div>
 
           <button

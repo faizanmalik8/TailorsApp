@@ -79,7 +79,7 @@ export function Receipt({ order, customer, onClose }: ReceiptProps) {
                   </p>
                   <p className="text-xs font-medium text-blue-100 flex items-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    {settings.ownerName} <span className="font-urdu opacity-80" dir="rtl">(مالک)</span>
+                    {settings.ownerName} <span className="font-urdu text-xs font-bold" dir="rtl">(مالک)</span>
                   </p>
                 </div>
               </div>
@@ -96,20 +96,20 @@ export function Receipt({ order, customer, onClose }: ReceiptProps) {
               {/* Order Info & Customer */}
               <div className="space-y-3 mb-6 bg-gray-50 rounded-2xl p-4 border border-gray-100 shadow-sm">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500 font-medium flex gap-1 items-center">
-                    Date <span className="font-urdu text-[10px] opacity-70" dir="rtl">(تاریخ)</span>
+                  <span className="text-gray-500 font-medium flex gap-2 items-center">
+                    Date <span className="font-urdu text-xs font-bold text-gray-700" dir="rtl">(تاریخ)</span>
                   </span>
                   <span className="font-bold text-[#152A4A]">{format(parseISO(order.datePlaced), 'dd MMM yyyy')}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500 font-medium flex gap-1 items-center">
-                    Customer <span className="font-urdu text-[10px] opacity-70" dir="rtl">(گاہک)</span>
+                  <span className="text-gray-500 font-medium flex gap-2 items-center">
+                    Customer <span className="font-urdu text-xs font-bold text-gray-700" dir="rtl">(گاہک)</span>
                   </span>
                   <span className="font-bold text-[#152A4A]">{customer.name}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500 font-medium flex gap-1 items-center">
-                    Phone <span className="font-urdu text-[10px] opacity-70" dir="rtl">(فون)</span>
+                  <span className="text-gray-500 font-medium flex gap-2 items-center">
+                    Phone <span className="font-urdu text-xs font-bold text-gray-700" dir="rtl">(فون)</span>
                   </span>
                   <span className="font-bold text-[#152A4A] tabular-nums">{customer.phone}</span>
                 </div>
@@ -124,9 +124,9 @@ export function Receipt({ order, customer, onClose }: ReceiptProps) {
                   <div className="flex flex-col">
                     <span className="font-black text-[#152A4A] text-lg">{garment?.name}</span>
                     {order.dueDate && (
-                      <span className="text-xs font-medium text-amber-600 mt-0.5 flex gap-1">
+                      <span className="text-xs font-medium text-amber-600 mt-0.5 flex gap-1.5 items-center">
                         Due: {format(parseISO(order.dueDate), 'dd MMM yyyy')}
-                        <span className="font-urdu opacity-80" dir="rtl">(واپسی)</span>
+                        <span className="font-urdu text-xs font-bold" dir="rtl">(واپسی)</span>
                       </span>
                     )}
                   </div>
@@ -148,14 +148,14 @@ export function Receipt({ order, customer, onClose }: ReceiptProps) {
                 <div className="flex justify-between items-center">
                   <span className="text-gray-500 font-medium flex gap-2 items-center">
                     Total Amount
-                    <span className="font-urdu text-xs opacity-70" dir="rtl">(کل رقم)</span>
+                    <span className="font-urdu text-sm font-bold text-gray-700" dir="rtl">(کل رقم)</span>
                   </span>
                   <span className="font-bold text-[#152A4A] tabular-nums">Rs {order.totalAmount}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-500 font-medium flex gap-2 items-center">
                     Advance Paid
-                    <span className="font-urdu text-xs opacity-70" dir="rtl">(جمع)</span>
+                    <span className="font-urdu text-sm font-bold text-gray-700" dir="rtl">(جمع)</span>
                   </span>
                   <span className="font-bold text-green-600 tabular-nums">Rs {order.amountPaid}</span>
                 </div>
@@ -164,7 +164,7 @@ export function Receipt({ order, customer, onClose }: ReceiptProps) {
                   <div className="flex justify-between items-center bg-red-50 p-3 rounded-xl border border-red-100">
                     <span className="font-black text-red-900 flex gap-2 items-center text-lg">
                       Balance
-                      <span className="font-urdu text-sm opacity-80" dir="rtl">(بقایہ)</span>
+                      <span className="font-urdu text-base font-bold" dir="rtl">(بقایہ)</span>
                     </span>
                     <span className="font-black text-2xl text-red-600 tabular-nums">Rs {order.totalAmount - order.amountPaid}</span>
                   </div>
