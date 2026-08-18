@@ -77,9 +77,9 @@ const DEFAULT_SETTINGS: ShopSettings = {
 };
 
 const DEFAULT_TEMPLATES: MessageTemplates = {
-  orderPlaced: "Thanks for trusting {shopName}!\n\n*Order Summary for {name}*\nOrder: {quantity}x {garment}\nDate Placed: {datePlaced}\nExpected Pickup: {dueDate}\n\n*Payment Details:*\nTotal Amount: Rs {total}\nAdvance Paid: Rs {advance}\n*Pending Due: Rs {balance}*\n\nYou will be notified as soon as your dress is ready!\n\n*Regards,*\n*{ownerName}*",
-  orderReady: "Thanks for trusting {shopName}!\n\nGreat news, {name}! Your order ({quantity}x {garment}) is now stitched and ready for pickup.\n\n*Pending Balance: Rs {balance}*\n\nThank you for choosing us for your tailoring needs. We hope you love the fit and choose us again for your next dress!\n\n*Regards,*\n*{ownerName}*",
-  paymentReminder: "Thanks for trusting {shopName}!\n\n*Pending Dues Reminder for {name}*\n\n*Order Details:*\nItems: {quantity}x {garment}\nOrder Date: {datePlaced}\n\n*Payment Summary:*\nTotal Amount: Rs {total}\nAmount Paid: Rs {advance}\n*Remaining Balance: Rs {balance}*\n\nPlease clear your pending dues at your earliest convenience.\n\n*Regards,*\n*{ownerName}*"
+  orderPlaced: "✂️ Thanks for trusting *{shopName}*!\n\n👤 *Order Summary for {name}*\n👗 *Order:* {quantity}x {garment}\n📅 *Date Placed:* {datePlaced}\n⏳ *Expected Pickup:* {dueDate}\n\n💰 *Total Amount:* Rs {total}\n💵 *Advance Paid:* Rs {advance}\n❗ *Pending Due:* Rs {balance}\n\nYou will be notified as soon as your dress is ready! ✨\n\n*Regards,*\n*{ownerName}*",
+  orderReady: "✂️ Thanks for trusting *{shopName}*!\n\nGreat news, *{name}*! 🎉\nYour order ({quantity}x {garment}) is now stitched and ready for pickup.\n\n❗ *Pending Balance:* Rs {balance}\n\nThank you for choosing us for your tailoring needs. We hope you love the fit and choose us again for your next dress! ✨\n\n*Regards,*\n*{ownerName}*",
+  paymentReminder: "✂️ Thanks for trusting *{shopName}*!\n\n⚠️ *Pending Dues Reminder for {name}*\n\n👗 *Items:* {quantity}x {garment}\n📅 *Order Date:* {datePlaced}\n\n💰 *Total Amount:* Rs {total}\n💵 *Amount Paid:* Rs {advance}\n❗ *Remaining Balance:* Rs {balance}\n\nPlease clear your pending dues at your earliest convenience. 🙏\n\n*Regards,*\n*{ownerName}*"
 };
 
 export const getMockCustomers = (): Customer[] => {
